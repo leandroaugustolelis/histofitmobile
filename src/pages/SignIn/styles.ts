@@ -25,5 +25,5 @@ export const Description = styled.Text`
 `;
 
 export const BlankSpace = styled.View`
-  margin-top: 150px;
+  height: 50px;
 `;

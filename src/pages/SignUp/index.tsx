@@ -1,12 +1,23 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 
-import Container from './styles';
+import { Container, BlankSpace, Title, Description } from './styles';
+
+import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 const SignUp: React.FC = () => {
   return (
     <Container>
-      <Text>hello</Text>
+      <BlankSpace />
+      <BlankSpace />
+      <Title>Welcome Onboard</Title>
+      <Description>Lets help you meet up your taxi</Description>
+      <BlankSpace />
+      <Input name="full name" placeholder="Enter your full name" />
+      <Input name="email" placeholder="Enter your email" />
+      <Input name="password" placeholder="Enter your password" />
+      <Input name="confirmpassword" placeholder="Confirm password" />
+      <Button>Register</Button>
     </Container>
   );
 };
