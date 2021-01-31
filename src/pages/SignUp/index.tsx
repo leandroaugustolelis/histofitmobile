@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, BlankSpace, Title, Description } from './styles';
+import { Container, BlankSpace, Title, Description, Footer } from './styles';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -18,6 +18,7 @@ const SignUp: React.FC = () => {
       <Input name="password" placeholder="Enter your password" />
       <Input name="confirmpassword" placeholder="Confirm password" />
       <Button>Register</Button>
+      <Footer>Already have an account? Sign In</Footer>
     </Container>
   );
 };

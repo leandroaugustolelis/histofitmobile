@@ -23,7 +23,14 @@ export const Description = styled.Text`
   font-family: 'Poppins-Regular';
   font-size: 13px;
   text-align: center;
-  width: 275px;
   margin-top: 21px;
+  opacity: 0.5;
+`;
+
+export const Footer = styled.Text`
+  font-family: 'Poppins-Regular';
+  font-size: 13px;
+  text-align: center;
+  margin-top: 16px;
   opacity: 0.5;
 `;

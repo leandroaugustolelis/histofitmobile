@@ -12,16 +12,18 @@ export const Title = styled.Text`
   font-family: 'Poppins-SemiBold';
   font-size: 18px;
   color: #000000;
-  margin-bottom: 21px;
+  margin-top: 48px;
+`;
+
+export const Description = styled.Text`
+  font-family: 'Poppins-Regular';
+  font-size: 13px;
+  text-align: center;
+  width: 275px;
+  margin-top: 38px;
+  opacity: 0.5;
 `;
 
 export const BlankSpace = styled.View`
   height: 50px;
-`;
-
-export const ForgotPassword = styled.Text`
-  font-family: 'Poppins-Regular';
-  font-size: 13px;
-  color: #8790ae;
-  margin-bottom: 16px;
 `;
