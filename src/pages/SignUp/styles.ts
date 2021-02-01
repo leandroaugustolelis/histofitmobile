@@ -27,10 +27,9 @@ export const Description = styled.Text`
   opacity: 0.5;
 `;
 
-export const Footer = styled.Text`
-  font-family: 'Poppins-Regular';
-  font-size: 13px;
-  text-align: center;
+export const Footer = styled.View`
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
   margin-top: 16px;
-  opacity: 0.5;
 `;

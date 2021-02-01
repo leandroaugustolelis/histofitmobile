@@ -1,13 +1,17 @@
 import React from 'react';
 
-import { Container, Title, BlankSpace, ForgotPassword } from './styles';
+import { useNavigation } from '@react-navigation/native';
+import { Container, Title, BlankSpace, ForgotPassword, Footer } from './styles';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import FooterText from '../../components/FooterText';
+import FooterLink from '../../components/FooterLink';
 
 import Image from '../../assets/img2.svg';
 
 const SignIn: React.FC = () => {
+  const navigation = useNavigation();
   return (
     <Container>
       <BlankSpace />
@@ -25,6 +29,12 @@ const SignIn: React.FC = () => {
       >
         Login
       </Button>
+      <Footer>
+        <FooterText>Dont have an account?</FooterText>
+        <FooterLink onPress={() => navigation.navigate('SignUp')}>
+          Sign Up
+        </FooterLink>
+      </Footer>
     </Container>
   );
 };

@@ -25,3 +25,10 @@ export const ForgotPassword = styled.Text`
   color: #8790ae;
   margin-bottom: 16px;
 `;
+
+export const Footer = styled.View`
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 16px;
+`;

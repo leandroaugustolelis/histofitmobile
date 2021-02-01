@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { Container, Title, Description, BlankSpace } from './styles';
 
@@ -7,6 +8,7 @@ import Button from '../../components/Button';
 import Image from '../../assets/img1.svg';
 
 const InitialPage: React.FC = () => {
+  const navigation = useNavigation();
   return (
     <Container>
       <BlankSpace />
@@ -20,7 +22,7 @@ const InitialPage: React.FC = () => {
       <BlankSpace />
       <Button
         onPress={() => {
-          console.log('deu');
+          navigation.navigate('SignUp');
         }}
       >
         Get Started
