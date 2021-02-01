@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
+
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
 import { Container, BlankSpace, Title, Description, Footer } from './styles';
 
 import Input from '../../components/Input';
@@ -9,6 +12,11 @@ import FooterText from '../../components/FooterText';
 import FooterLink from '../../components/FooterLink';
 
 const SignUp: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+  const handleSignUp = useCallback((data: any) => {
+    console.log(data);
+  }, []);
+
   const navigation = useNavigation();
   return (
     <Container>
@@ -17,11 +25,19 @@ const SignUp: React.FC = () => {
       <Title>Welcome Onboard</Title>
       <Description>Lets help you meet up your taxi</Description>
       <BlankSpace />
-      <Input name="full name" placeholder="Enter your full name" />
-      <Input name="email" placeholder="Enter your email" />
-      <Input name="password" placeholder="Enter your password" />
-      <Input name="confirmpassword" placeholder="Confirm password" />
-      <Button>Register</Button>
+      <Form ref={formRef} onSubmit={handleSignUp}>
+        <Input name="full name" placeholder="Enter your full name" />
+        <Input name="email" placeholder="Enter your email" />
+        <Input name="password" placeholder="Enter your password" />
+        <Input name="confirmpassword" placeholder="Confirm password" />
+        <Button
+          onPress={() => {
+            formRef.current?.submitForm();
+          }}
+        >
+          Register
+        </Button>
+      </Form>
       <Footer>
         <FooterText>Already have an account?</FooterText>
         <FooterLink onPress={() => navigation.navigate('SignIn')}>

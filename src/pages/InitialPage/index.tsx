@@ -21,6 +21,7 @@ const InitialPage: React.FC = () => {
       </Description>
       <BlankSpace />
       <Button
+        style={{ width: '100%' }}
         onPress={() => {
           navigation.navigate('SignUp');
         }}
