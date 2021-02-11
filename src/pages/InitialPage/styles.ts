@@ -11,7 +11,7 @@ export const Container = styled.View`
 export const Title = styled.Text`
   font-family: 'Poppins-SemiBold';
   font-size: 18px;
-  color: #000000;
+  color: #000;
   margin-top: 48px;
 `;
 

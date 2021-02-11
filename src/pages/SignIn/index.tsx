@@ -13,13 +13,18 @@ import FooterLink from '../../components/FooterLink';
 
 import Image from '../../assets/img2.svg';
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
+  const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
-  const handleSignIn = useCallback((data: any) => {
+  const handleSignIn = useCallback((data: SignInFormData) => {
     console.log(data);
   }, []);
 
-  const navigation = useNavigation();
   return (
     <Container>
       <BlankSpace />

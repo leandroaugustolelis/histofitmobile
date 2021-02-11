@@ -11,7 +11,7 @@ export const Container = styled.View`
 export const Title = styled.Text`
   font-family: 'Poppins-SemiBold';
   font-size: 18px;
-  color: #000000;
+  color: #000;
   margin-bottom: 21px;
 `;
 
@@ -24,6 +24,7 @@ export const ForgotPassword = styled.Text`
   font-size: 13px;
   color: #8790ae;
   margin-bottom: 16px;
+  text-align: center;
 `;
 
 export const Footer = styled.View`
