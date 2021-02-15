@@ -22,6 +22,7 @@
     "prettier"
   ],
   "rules": {
+    "@typescript-eslint/ban-types": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "no-underscore-dangle": "error",

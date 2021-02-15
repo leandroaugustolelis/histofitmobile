@@ -2,13 +2,16 @@ import React from 'react';
 import { Container, ProfilePhoto, Title } from './styles';
 import Image from '../../../../assets/profilephoto.svg';
 
-const Header = () => {
+import { useAuth } from '../../../../hooks/auth';
+
+const Header: React.FC = () => {
+  const { user } = useAuth();
   return (
     <Container>
       <ProfilePhoto>
         <Image />
       </ProfilePhoto>
-      <Title>Welcome Joao Fulano!</Title>
+      <Title>Welcome {user.name}</Title>
     </Container>
   );
 };
