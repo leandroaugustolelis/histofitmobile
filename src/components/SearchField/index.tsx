@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Container, Input } from './styles';
-import SearchIcon from '../../assets/searchicon.svg';
+import SearchImage from '../../assets/search-image.svg';
 
 const SearchField: React.FC = () => (
   <Container>
-    <SearchIcon />
+    <SearchImage />
     <Input
       placeholderTextColor="rgba(0, 0, 0, 0.25)"
       placeholder="Search Friend"

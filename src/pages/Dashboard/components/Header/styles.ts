@@ -1,10 +1,20 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  height: 290px;
-  background: #809cc7;
+  height: 220px;
+  background: #607fcd;
+  padding: 20px;
+  display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const ShapeView = styled.View`
+  position: absolute;
+  width: 262px;
+  height: 420px;
+  left: 0px;
+  top: 0px;
 `;
 
 export const ProfilePhoto = styled.View`

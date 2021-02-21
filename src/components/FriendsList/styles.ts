@@ -6,5 +6,3 @@ export const Container = styled.View`
   flex-direction: row;
   padding-left: 35px;
 `;
-
-export const Peido = styled.View``;

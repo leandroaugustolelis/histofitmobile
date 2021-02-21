@@ -6,7 +6,15 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
 import * as Yup from 'yup';
-import { Container, Title, BlankSpace, ForgotPassword, Footer } from './styles';
+import {
+  Container,
+  Header,
+  ShapeView,
+  Title,
+  BlankSpace,
+  ForgotPassword,
+  Footer,
+} from './styles';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -16,7 +24,8 @@ import FooterLink from '../../components/FooterLink';
 import { useAuth } from '../../hooks/auth';
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import Image from '../../assets/img2.svg';
+import FitnessTrackImage from '../../assets/fitness-track.svg';
+import Shape from '../../assets/shape.svg';
 
 interface SignInFormData {
   email: string;
@@ -66,22 +75,26 @@ const SignIn: React.FC = () => {
   );
 
   return (
-    <Container>
-      <BlankSpace />
-      <BlankSpace />
-      <Title>Welcome Back !</Title>
-      <Image height={219} width={257} styles={{ alignItems: 'center' }} />
-      <BlankSpace />
-
-      <Form ref={formRef} onSubmit={handleSignIn}>
-        <Input
-          name="email"
-          placeholder="Enter your email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <Input name="password" placeholder="Enter password" secureTextEntry />
-        <ForgotPassword>Forgot Password</ForgotPassword>
+    <>
+      <Header>
+        <ShapeView>
+          <Shape />
+        </ShapeView>
+      </Header>
+      <Container>
+        <Title>Welcome Back !</Title>
+        <FitnessTrackImage styles={{ alignItems: 'center' }} />
+        <BlankSpace />
+        <Form ref={formRef} onSubmit={handleSignIn}>
+          <Input
+            name="email"
+            placeholder="Enter your email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <Input name="password" placeholder="Enter password" secureTextEntry />
+          <ForgotPassword>Forgot Password</ForgotPassword>
+        </Form>
         <Button
           onPress={() => {
             formRef.current?.submitForm();
@@ -89,14 +102,14 @@ const SignIn: React.FC = () => {
         >
           Login
         </Button>
-      </Form>
-      <Footer>
-        <FooterText>Dont have an account?</FooterText>
-        <FooterLink onPress={() => navigation.navigate('SignUp')}>
-          Sign Up
-        </FooterLink>
-      </Footer>
-    </Container>
+        <Footer>
+          <FooterText>Dont have an account?</FooterText>
+          <FooterLink onPress={() => navigation.navigate('SignUp')}>
+            Sign Up
+          </FooterLink>
+        </Footer>
+      </Container>
+    </>
   );
 };
 
