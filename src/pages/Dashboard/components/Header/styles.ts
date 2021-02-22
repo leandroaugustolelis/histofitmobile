@@ -21,6 +21,18 @@ export const UserAvatarButton = styled.TouchableOpacity`
   margin-top: 16px;
 `;
 
+export const CameraView = styled.View`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 40px;
+  height: 34px;
+  left: 50px;
+  top: 80px;
+  background-color: #9eacce;
+  border-radius: 50;
+`;
 export const UserAvatar = styled.Image`
   width: 100px;
   height: 100px;

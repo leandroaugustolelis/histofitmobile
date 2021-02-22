@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchCamera } from 'react-native-image-picker';
 import { Alert } from 'react-native';
 import {
   Container,
@@ -7,9 +7,11 @@ import {
   Title,
   UserAvatar,
   UserAvatarButton,
+  CameraView,
 } from './styles';
 import AvatarImage from '../../../../assets/avatar-image.svg';
 import ShapeWhite from '../../../../assets/shape-white.svg';
+import CameraImage from '../../../../assets/camera-image.svg';
 
 import { useAuth } from '../../../../hooks/auth';
 import api from '../../../../services/api';
@@ -78,11 +80,17 @@ const Header: React.FC = () => {
       <ShapeView>
         <ShapeWhite />
       </ShapeView>
+
       <UserAvatarButton onPress={handleUpdateAvatar}>
         {user.avatarUrl ? (
           <UserAvatar source={{ uri: user.avatarUrl }} />
         ) : (
-          <AvatarImage />
+          <>
+            <AvatarImage />
+            <CameraView>
+              <CameraImage />
+            </CameraView>
+          </>
         )}
       </UserAvatarButton>
       <Title>{user.name}</Title>
