@@ -17,10 +17,15 @@ export const ShapeView = styled.View`
   top: 0px;
 `;
 
-export const ProfilePhoto = styled.View`
-  height: 100px;
+export const UserAvatarButton = styled.TouchableOpacity`
+  margin-top: 16px;
+`;
+
+export const UserAvatar = styled.Image`
   width: 100px;
-  border-radius: 50;
+  height: 100px;
+  border-radius: 100;
+  align-self: center;
 `;
 
 export const Title = styled.Text`

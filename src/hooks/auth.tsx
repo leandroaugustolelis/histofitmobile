@@ -9,24 +9,29 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import api from '../services/api';
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl: string;
+}
+
 interface SignInCredentials {
   email: string;
   password: string;
 }
-interface AuthState {
-  token: string;
-  user: UserProps;
-}
-
-interface UserProps {
-  name: string;
-}
 
 interface AuthContextData {
-  user: UserProps;
-  loading: boolean;
+  user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
+  updateUser(user: User): Promise<void>;
+  loading: boolean;
+}
+
+interface AuthState {
+  token: string;
+  user: User;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -36,45 +41,61 @@ const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadStoragedData(): Promise<void> {
+    async function loadStorageData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
-        '@LustyCircle:token',
-        '@LustyCircle:user',
+        '@Histofit:token',
+        '@Histofit:user',
       ]);
 
       if (token[1] && user[1]) {
+        api.defaults.headers.authorization = `Bearer ${token[1]}`;
+
         setData({ token: token[1], user: JSON.parse(user[1]) });
       }
 
       setLoading(false);
     }
-    loadStoragedData();
-  }, []);
+
+    loadStorageData();
+  });
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('/sessions', {
-      email,
-      password,
-    });
+    const response = await api.post('sessions', { email, password });
 
     const { token, user } = response.data;
 
     await AsyncStorage.multiSet([
-      ['@LustyCircle:token', token],
-      ['@LustyCircle:user', JSON.stringify(user)],
+      ['@Histofit:token', token],
+      ['@Histofit:user', JSON.stringify(user)],
     ]);
+
+    api.defaults.headers.authorization = `Bearer ${token[1]}`;
 
     setData({ token, user });
   }, []);
 
   const signOut = useCallback(async () => {
-    await AsyncStorage.multiRemove(['@LustyCircle:token', '@LustyCircle:user']);
+    await AsyncStorage.multiRemove(['@Histofit:token', '@Histofit:user']);
 
     setData({} as AuthState);
   }, []);
 
+  const updateUser = useCallback(
+    async (user: User) => {
+      await AsyncStorage.setItem('@Histofit:user', JSON.stringify(user));
+
+      setData({
+        token: data.token,
+        user,
+      });
+    },
+    [setData, data.token],
+  );
+
   return (
-    <AuthContext.Provider value={{ user: data.user, loading, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, loading, signIn, signOut, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -90,4 +111,4 @@ function useAuth(): AuthContextData {
   return context;
 }
 
-export { AuthProvider, useAuth };
+export { AuthContext, AuthProvider, useAuth };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
-import Header from './components/Header/indes';
+import Header from './components/Header';
 import Container from './styles';
 import Menu from '../../components/Menu';
 import FriendsList from '../../components/FriendsList';
@@ -13,7 +13,6 @@ const Dashboard: React.FC = () => {
   return (
     <Container>
       <Header />
-
       <Menu />
       <SearchField />
       <TouchableOpacity onPress={signOut}>
