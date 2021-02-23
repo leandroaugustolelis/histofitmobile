@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-import AddFriend from '../AddFriend';
+import Friend from '../Friend';
 import { User } from '../../core/types/User';
 
 import { Container } from './styles';
@@ -24,7 +24,7 @@ const FriendsList: React.FC = () => {
         data={users}
         keyExtractor={user => user.id}
         numColumns={2}
-        renderItem={({ item }) => <AddFriend user={item} />}
+        renderItem={({ item }) => <Friend user={item} />}
       />
     </Container>
   );
