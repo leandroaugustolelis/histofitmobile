@@ -1,16 +1,20 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
+import Geolocation from '@react-native-community/geolocation';
 
 // import { useNavigation } from '@react-navigation/native';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
-import { Alert } from 'react-native';
+import { Alert, Text } from 'react-native';
+
+import axios from 'axios';
+import { FlatList } from 'react-native-gesture-handler';
 import { Container, Input, Header, LocationTag } from './styles';
 
 import Button from '../../components/Button';
 import PublishPhoto from '../../assets/publish-photo.svg';
-// import api from '../../services/api';
+import PlaceItem from './components/PlaceItem';
 
 // interface PublishPostDataForm {
 //   userId: string;
@@ -21,16 +25,36 @@ import PublishPhoto from '../../assets/publish-photo.svg';
 //   comments: string;
 // }
 
+export interface Place {
+  name: string;
+  place_id: string;
+}
+
 const PublishPost: React.FC = () => {
-  // const navigation = useNavigation();
+  const [location, setLocation] = useState('');
+  const [places, setPlaces] = useState<Place[]>();
+
   const formRef = useRef<FormHandles>(null);
   const handleSignUp = useCallback(async () => {
-    // await api.post('/posts', data);
-
     Alert.alert('Publish is complete!', 'Enjoy your timeline.');
-
-    // navigation.goBack();
   }, []);
+
+  const handleGooglePlaces = async () => {
+    Geolocation.getCurrentPosition(resultLocation => {
+      setLocation(
+        `${resultLocation.coords.latitude},${resultLocation.coords.longitude}`,
+      );
+    });
+    const response = await axios.get(
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=10000&keyword=cruise&key=AIzaSyA_XrCD5S1NVEWdgQOLVoY1kb8Prpk_VZE`,
+    );
+
+    setPlaces(response.data.results);
+  };
+
+  useEffect(() => {
+    handleGooglePlaces();
+  }, [places]);
 
   return (
     <Container>
@@ -40,8 +64,16 @@ const PublishPost: React.FC = () => {
           <Input placeholder="Write a caption...enjoy your moment" />
         </Form>
       </Header>
-      <LocationTag>Share a location</LocationTag>
-
+      <LocationTag>Share a location:</LocationTag>
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        style={{ flexGrow: 0 }}
+        data={places}
+        keyExtractor={place => place.place_id}
+        horizontal={true}
+        ItemSeparatorComponent={() => <Text> </Text>}
+        renderItem={({ item }) => <PlaceItem place={item}></PlaceItem>}
+      />
       <Button
         onPress={() => {
           formRef.current?.submitForm();
