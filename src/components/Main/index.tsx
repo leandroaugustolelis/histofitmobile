@@ -35,7 +35,10 @@ const Main = () => {
 
         data.append('photo', {
           type: 'image/jpeg',
-          name: `${Math.random}.jpg`,
+          name: `${Math.random()
+            .toString(36)
+            .replace(/[^a-z]+/g, '')
+            .substr(0, 5)}.jpg`,
           uri: response.uri,
         });
 

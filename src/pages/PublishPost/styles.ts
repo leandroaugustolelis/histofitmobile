@@ -25,6 +25,14 @@ export const LocationTag = styled.Text`
   color: rgba(0, 0, 0, 0.85);
 `;
 
+export const LocationSelected = styled.Text`
+  font-family: 'Poppins-SemiBold';
+  height: 15px;
+  font-size: 9px;
+  text-align: left;
+  color: blue;
+`;
+
 export const PlaceView = styled.TouchableOpacity`
   flex: 1;
   justify-content: space-between;

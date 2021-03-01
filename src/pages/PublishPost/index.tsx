@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
+import { format } from 'date-fns';
 
 // import { useNavigation } from '@react-navigation/native';
 
@@ -17,56 +18,54 @@ import {
   PlaceItem,
   PlaceView,
   Photo,
+  LocationSelected,
 } from './styles';
 import api from '../../services/api';
-import { useAuth } from '../../hooks/auth';
 
 export interface Place {
   name: string;
   place_id: string;
 }
 
-interface PostForm {
-  user_id: string;
-  location: string;
-  caption: string;
-  date: Date;
-}
+// interface PostForm {
+//   user_id: string;
+//   location: string;
+//   caption: string;
+//   date: Date;
+// }
 
 const PublishPost = props => {
   const { register, handleSubmit, setValue } = useForm();
-  // const { user } = useAuth();
 
-  // setValue('user_id', user.id);
-  setValue('date', new Date());
+  setValue('date', format(new Date(), 'yyyy-MM-dd'));
 
   const { photoImage } = props.route.params;
   const { photoData } = props.route.params;
 
+  const [locationLatLong, setLocationLatLong] = useState('');
   const [location, setLocation] = useState('');
   const [places, setPlaces] = useState<Place[]>();
 
-  const onSubmit = async (data: PostForm) => {
+  const onSubmit = async (data: any) => {
     Alert.alert('Form Data', JSON.stringify(data));
-    console.log(JSON.stringify(data));
+
+    photoData.append('location', data.location);
+    photoData.append('caption', data.caption);
+    photoData.append('date', data.date);
 
     try {
-      console.log('antes');
-      await api.post('/posts', data);
-      console.log('depois');
-    } catch (err) {
-      console.log(err);
-    }
+      await api.post('/posts', photoData);
+    } catch (err) {}
   };
 
   const handleGooglePlaces = async () => {
     Geolocation.getCurrentPosition(resultLocation => {
-      setLocation(
+      setLocationLatLong(
         `${resultLocation.coords.latitude},${resultLocation.coords.longitude}`,
       );
     });
     const response = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=10000&keyword=cruise&key=AIzaSyA_XrCD5S1NVEWdgQOLVoY1kb8Prpk_VZE`,
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${locationLatLong}&radius=10000&keyword=cruise&key=AIzaSyA_XrCD5S1NVEWdgQOLVoY1kb8Prpk_VZE`,
     );
 
     setPlaces(response.data.results);
@@ -92,6 +91,7 @@ const PublishPost = props => {
           onChangeText={text => setValue('caption', text)}
         />
       </Header>
+      <LocationSelected>{location}</LocationSelected>
       <LocationTag>Share a location:</LocationTag>
       <FlatList
         showsHorizontalScrollIndicator={false}
@@ -101,7 +101,12 @@ const PublishPost = props => {
         horizontal={true}
         ItemSeparatorComponent={() => <Text> </Text>}
         renderItem={({ item }) => (
-          <PlaceView onPress={() => setValue('location', item.name)}>
+          <PlaceView
+            onPress={() => {
+              setLocation(item.name);
+              setValue('location', item.name);
+            }}
+          >
             <PlaceItem>{item.name}</PlaceItem>
           </PlaceView>
         )}
