@@ -1,43 +1,63 @@
-import React, { useRef, useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 
 // import { useNavigation } from '@react-navigation/native';
 
-import { Form } from '@unform/mobile';
-import { FormHandles } from '@unform/core';
+import { useForm } from 'react-hook-form';
 
-import { Alert, Text } from 'react-native';
+import { Alert, Text, Button, Image } from 'react-native';
 
 import axios from 'axios';
 import { FlatList } from 'react-native-gesture-handler';
-import { Container, Input, Header, LocationTag } from './styles';
-
-import Button from '../../components/Button';
-import PublishPhoto from '../../assets/publish-photo.svg';
-import PlaceItem from './components/PlaceItem';
-
-// interface PublishPostDataForm {
-//   userId: string;
-//   date: Date;
-//   location: string;
-//   caption: string;
-//   postFilename: string;
-//   comments: string;
-// }
+import {
+  Container,
+  Input,
+  Header,
+  LocationTag,
+  PlaceItem,
+  PlaceView,
+  Photo,
+} from './styles';
+import api from '../../services/api';
+import { useAuth } from '../../hooks/auth';
 
 export interface Place {
   name: string;
   place_id: string;
 }
 
-const PublishPost: React.FC = () => {
+interface PostForm {
+  user_id: string;
+  location: string;
+  caption: string;
+  date: Date;
+}
+
+const PublishPost = props => {
+  const { register, handleSubmit, setValue } = useForm();
+  // const { user } = useAuth();
+
+  // setValue('user_id', user.id);
+  setValue('date', new Date());
+
+  const { photoImage } = props.route.params;
+  const { photoData } = props.route.params;
+
   const [location, setLocation] = useState('');
   const [places, setPlaces] = useState<Place[]>();
 
-  const formRef = useRef<FormHandles>(null);
-  const handleSignUp = useCallback(async () => {
-    Alert.alert('Publish is complete!', 'Enjoy your timeline.');
-  }, []);
+  const onSubmit = async (data: PostForm) => {
+    Alert.alert('Form Data', JSON.stringify(data));
+    console.log(JSON.stringify(data));
+
+    try {
+      console.log('antes');
+      await api.post('/posts', data);
+      console.log('depois');
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleGooglePlaces = async () => {
     Geolocation.getCurrentPosition(resultLocation => {
@@ -53,16 +73,24 @@ const PublishPost: React.FC = () => {
   };
 
   useEffect(() => {
+    register('caption');
+    register('location');
+    register('date');
     handleGooglePlaces();
-  }, [places]);
+  }, [register]);
 
   return (
     <Container>
       <Header>
-        <PublishPhoto />
-        <Form ref={formRef} onSubmit={handleSignUp}>
-          <Input placeholder="Write a caption...enjoy your moment" />
-        </Form>
+        <Photo
+          source={{
+            uri: photoImage,
+          }}
+        />
+        <Input
+          placeholder="Write a caption...enjoy your moment"
+          onChangeText={text => setValue('caption', text)}
+        />
       </Header>
       <LocationTag>Share a location:</LocationTag>
       <FlatList
@@ -72,13 +100,13 @@ const PublishPost: React.FC = () => {
         keyExtractor={place => place.place_id}
         horizontal={true}
         ItemSeparatorComponent={() => <Text> </Text>}
-        renderItem={({ item }) => <PlaceItem place={item}></PlaceItem>}
+        renderItem={({ item }) => (
+          <PlaceView onPress={() => setValue('location', item.name)}>
+            <PlaceItem>{item.name}</PlaceItem>
+          </PlaceView>
+        )}
       />
-      <Button
-        onPress={() => {
-          formRef.current?.submitForm();
-        }}
-      >
+      <Button title="S U B M I T" onPress={handleSubmit(onSubmit)}>
         Publish
       </Button>
     </Container>

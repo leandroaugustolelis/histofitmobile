@@ -16,9 +16,10 @@ const AppRoutes: React.FC = () => (
       cardStyle: { backgroundColor: '#312e38' },
     }}
   >
-    <App.Screen name="PublishPost" component={PublishPost} />
     <App.Screen name="Main" component={Main} />
     <App.Screen name="FriendsList" component={FriendsList} />
+    <App.Screen name="Dashboard" component={Dashboard} />
+    <App.Screen name="PublishPost" component={PublishPost} />
   </App.Navigator>
 );
 

@@ -24,3 +24,26 @@ export const LocationTag = styled.Text`
   text-align: left;
   color: rgba(0, 0, 0, 0.85);
 `;
+
+export const PlaceView = styled.TouchableOpacity`
+  flex: 1;
+  justify-content: space-between;
+  width: 100%;
+  height: 30px;
+`;
+
+export const PlaceItem = styled.Text`
+  color: #000;
+  border: 1px;
+  background-color: #aec0ee;
+  font-size: 9px;
+  padding-left: 20px;
+  padding-right: 20px;
+`;
+
+export const Photo = styled.Image`
+  width: 100px;
+  height: 100px;
+  border-radius: 100;
+  align-self: center;
+`;

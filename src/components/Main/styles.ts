@@ -5,7 +5,4 @@ export const Container = styled.View`
   background-color: #eee;
 `;
 
-// export const Content = styled.View`
-//   background-color: red;
-//   flex: 1;
-// `;
+export const PlusCircleView = styled.TouchableOpacity``;
