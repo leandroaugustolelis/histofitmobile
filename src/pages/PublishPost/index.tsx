@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import { format } from 'date-fns';
 
-// import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import { useForm } from 'react-hook-form';
 
-import { Alert, Text, Button, Image } from 'react-native';
+import { Alert, Text, Button } from 'react-native';
 
 import axios from 'axios';
 import { FlatList } from 'react-native-gesture-handler';
@@ -36,8 +36,9 @@ export interface Place {
 
 const PublishPost = props => {
   const { register, handleSubmit, setValue } = useForm();
+  const navigation = useNavigation();
 
-  setValue('date', format(new Date(), 'yyyy-MM-dd'));
+  setValue('date', format(new Date(), 'yyyy-MM-dd HH:m:ss'));
 
   const { photoImage } = props.route.params;
   const { photoData } = props.route.params;
@@ -53,30 +54,27 @@ const PublishPost = props => {
     photoData.append('caption', data.caption);
     photoData.append('date', data.date);
 
-    try {
-      await api.post('/posts', photoData);
-    } catch (err) {}
+    await api.post('/posts', photoData);
+
+    navigation.navigate('Main');
   };
 
-  const handleGooglePlaces = async () => {
+  useEffect(() => {
     Geolocation.getCurrentPosition(resultLocation => {
       setLocationLatLong(
         `${resultLocation.coords.latitude},${resultLocation.coords.longitude}`,
       );
     });
-    const response = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${locationLatLong}&radius=10000&keyword=cruise&key=AIzaSyA_XrCD5S1NVEWdgQOLVoY1kb8Prpk_VZE`,
-    );
+    axios
+      .get(
+        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${locationLatLong}&radius=10000&keyword=cruise&key=AIzaSyA_XrCD5S1NVEWdgQOLVoY1kb8Prpk_VZE`,
+      )
+      .then(response => setPlaces(response.data.results));
 
-    setPlaces(response.data.results);
-  };
-
-  useEffect(() => {
     register('caption');
     register('location');
     register('date');
-    handleGooglePlaces();
-  }, [register]);
+  }, [register, locationLatLong]);
 
   return (
     <Container>

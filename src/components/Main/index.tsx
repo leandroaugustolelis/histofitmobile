@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Alert, Text } from 'react-native';
 import { launchCamera } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
@@ -10,9 +10,15 @@ import PlusCircle from '../../assets/plus-circle.svg';
 
 import { Container, PlusCircleView } from './styles';
 import { useAuth } from '../../hooks/auth';
+import api from '../../services/api';
+import PostCard from './components/PostCard';
 
 const Main = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    api.get('/posts').then(response => console.log(response.data));
+  }, []);
 
   const takePicture = () => {
     launchCamera(
@@ -55,10 +61,10 @@ const Main = () => {
       <TouchableOpacity onPress={signOut}>
         <Text>SignOut</Text>
       </TouchableOpacity>
-
       <PlusCircleView onPress={() => takePicture()}>
         <PlusCircle />
       </PlusCircleView>
+      <PostCard />
     </Container>
   );
 };
