@@ -1,20 +1,18 @@
 import React from 'react';
 
 import { View } from 'react-native';
-import { Container, Title, Content, Caption } from './styles';
+import { Container, Title, Content, Caption, PhotoPost } from './styles';
 
-import ImageFood from '../../../../assets/post-image.svg';
+import { Post } from '../../../../core/types/Post';
 
-interface PostProps {
-  date: Date;
-  location: string;
-  post: string;
-}
+type Props = {
+  post: Post;
+};
 
-const PostCard = () => (
+const PostCard = ({ post }: Props) => (
   <Container>
     <Content>
-      <ImageFood />
+      <PhotoPost source={{ uri: post.photoUrl }} />
       <View
         style={{
           height: 150,
@@ -24,12 +22,10 @@ const PostCard = () => (
           flexDirection: 'column',
         }}
       >
-        <Title>23/02/2021 às 14:35, Mountain Park</Title>
-        <Caption>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis integer
-          nisl port titor praesent arcu at vel quis tellus. Sit varius amet urna
-          lobortis. Id ac scelerisque quisque enim, nisl, fac
-        </Caption>
+        <Title>
+          {post.date}, {post.location}
+        </Title>
+        <Caption>{post.caption}</Caption>
       </View>
     </Content>
   </Container>

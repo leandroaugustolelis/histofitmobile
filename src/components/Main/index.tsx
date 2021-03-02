@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Alert, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList, Text } from 'react-native';
 import { launchCamera } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -8,16 +8,21 @@ import Menu from '../Menu';
 
 import PlusCircle from '../../assets/plus-circle.svg';
 
-import { Container, PlusCircleView } from './styles';
+import { Container, PlusCircleView, Content } from './styles';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 import PostCard from './components/PostCard';
+import { Post, PostsResponse } from '../../core/types/Post';
 
 const Main = () => {
   const navigation = useNavigation();
+  const [posts, setPosts] = useState<Post[]>();
 
   useEffect(() => {
-    api.get('/posts').then(response => console.log(response.data));
+    api.get('/posts').then(response => {
+      console.log(response.data);
+      setPosts(response.data);
+    });
   }, []);
 
   const takePicture = () => {
@@ -64,7 +69,15 @@ const Main = () => {
       <PlusCircleView onPress={() => takePicture()}>
         <PlusCircle />
       </PlusCircleView>
-      <PostCard />
+      <Content>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={posts}
+          keyExtractor={post => post.id}
+          numColumns={1}
+          renderItem={({ item }) => <PostCard post={item} />}
+        />
+      </Content>
     </Container>
   );
 };

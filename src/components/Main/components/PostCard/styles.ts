@@ -33,3 +33,8 @@ export const Caption = styled.Text`
   margin-top: 15px;
   color: rgba(0, 0, 0, 0.85);
 `;
+
+export const PhotoPost = styled.Image`
+  width: 100px;
+  height: 150px;
+`;
