@@ -12,7 +12,7 @@ export const ImagePhoto = styled.Image`
   height: 50px;
   width: 50px;
   background: #c4c4c4;
-  border-radius: 50;
+  border-radius: 50px;
 `;
 
 export const Content = styled.View`

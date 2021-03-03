@@ -31,12 +31,12 @@ export const CameraView = styled.View`
   left: 50px;
   top: 80px;
   background-color: #9eacce;
-  border-radius: 50;
+  border-radius: 50px;
 `;
 export const UserAvatar = styled.Image`
   width: 100px;
   height: 100px;
-  border-radius: 100;
+  border-radius: 100px;
   align-self: center;
 `;
 

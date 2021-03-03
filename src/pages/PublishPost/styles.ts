@@ -52,6 +52,6 @@ export const PlaceItem = styled.Text`
 export const Photo = styled.Image`
   width: 100px;
   height: 100px;
-  border-radius: 100;
+  border-radius: 100px;
   align-self: center;
 `;
